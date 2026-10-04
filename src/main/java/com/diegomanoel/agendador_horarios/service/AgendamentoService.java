@@ -37,5 +37,16 @@ public class AgendamentoService {
         LocalDateTime ultimaHoraDia = data.atTime(23, 59, 59);
 
         return agendamentoRepository.findByDataHoraAgendamentoBetween(primeiraHoraDia, ultimaHoraDia);
-    }
+    };
+
+    public Agendamento alterarAgendamento(Agendamento agendamento, String cliente, LocalDateTime dataHoraAgendamento){
+        Agendamento agenda = agendamentoRepository.findByClienteAndDataHoraAgendamento(cliente, dataHoraAgendamento);
+
+        if (Objects.isNull(agenda)) {
+            throw new RuntimeException("Horário não está preenchido");
+        }
+
+        agendamento.setId(agenda.getId());
+        return agendamentoRepository.save(agendamento);
+    };
 }
